@@ -18,12 +18,24 @@ jobs:
   build-windows-installer:
     executor: win/default
     steps:
+      - run: choco install wget -y
+        - run:
+          command: wget https://nodejs.org/dist/v16.17.0/node-v16.17.0-x86.msi -P C:\Users\circleci\Downloads\
+          shell: cmd.exe
+        - run: MsiExec.exe /i C:\Users\circleci\Downloads\node-v16.17.0-x86.msi /qn
+        - run: 
+            command: |
+                Start-Process powershell -verb runAs -Args "-start GeneralProfile"
+                nvm install 16.17.0
+                nvm use 16.17.0
       - checkout
       - node/install-packages:
           pkg-manager: npm
       - run:
           name: Electron make
           command: npm run make
+      - store_artifacts:
+          path: windows/output
   build-mac-installer:
     macos:
       xcode: 16.2.0
@@ -34,6 +46,8 @@ jobs:
       - run:
           name: Electron make
           command: npm run make
+      - store_artifacts:
+          path: macos/output
 workflows:
   build-packages:
     jobs:
