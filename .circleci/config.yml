@@ -14,6 +14,15 @@ jobs:
       - run:
           name: Run tests
           command: echo \"No test specified in package.json\"
+  build-packages:
+    executor: node/default
+    steps:
+      - checkout
+      - node/install-packagegs:
+          pkg-manager: npm
+      - run:
+          name: Electron make
+          command: npm run makee
   deploy:
     # This is an example deploy job, not actually used by the workflow
     docker:
@@ -24,9 +33,12 @@ jobs:
           name: deploy
           command: '#e.g. ./deploy.sh'
 workflows:
-  build-and-test:
+  build-packages:
     jobs:
-      - test-node
+      - build-packages
+  # build-and-test:
+  #   jobs:
+  #     - test-node
     # - deploy:
     #     requires:
     #       - test-node
