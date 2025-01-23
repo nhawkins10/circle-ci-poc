@@ -1,0 +1,40 @@
+version: 2.1
+orbs:
+  node: circleci/node@5
+  win: circleci/windows@5.0
+jobs:
+  build-windows-installer:
+    executor: win/default
+    steps:
+      - run:
+          command: |
+            nvm install 18
+            nvm use 18
+      - checkout
+      - run:
+          name: Install packages
+          command: npm install
+      - run:
+          name: Electron make
+          command: npm run make
+      - store_artifacts:
+          path: out/make
+          destination: windows
+  build-mac-installer:
+    macos:
+      xcode: 16.2.0
+    steps:
+      - checkout
+      - node/install-packages:
+          pkg-manager: npm
+      - run:
+          name: Electron make
+          command: npm run make
+      - store_artifacts:
+          path: out/make
+          destination: macos
+workflows:
+  build-packages:
+    jobs:
+      - build-windows-installer
+      - build-mac-installer
