@@ -18,11 +18,11 @@ jobs:
     executor: node/default
     steps:
       - checkout
-      - node/install-packagegs:
+      - node/install-packages:
           pkg-manager: npm
       - run:
           name: Electron make
-          command: npm run makee
+          command: npm run make
   deploy:
     # This is an example deploy job, not actually used by the workflow
     docker:
