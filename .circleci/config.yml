@@ -3,6 +3,7 @@
 version: 2.1
 orbs:
   node: circleci/node@5
+  win: circleci/windows@5.0
 jobs:
   test-node:
     # Install node dependencies and run tests
@@ -14,8 +15,8 @@ jobs:
       - run:
           name: Run tests
           command: echo \"No test specified in package.json\"
-  build-packages:
-    executor: node/default
+  build-windows-installer:
+    executor: win/default
     steps:
       - checkout
       - node/install-packages:
@@ -23,19 +24,21 @@ jobs:
       - run:
           name: Electron make
           command: npm run make
-  deploy:
-    # This is an example deploy job, not actually used by the workflow
-    docker:
-      - image: cimg/base:stable
+  build-mac-installer:
+    macos:
+      xcode: 16.2.0
     steps:
-      # Replace this with steps to deploy to users
+      - checkout
+      - node/install-packages:
+          pkg-manager: npm
       - run:
-          name: deploy
-          command: '#e.g. ./deploy.sh'
+          name: Electron make
+          command: npm run make
 workflows:
   build-packages:
     jobs:
-      - build-packages
+      - build-windows-installer
+      - build-mac-installer
   # build-and-test:
   #   jobs:
   #     - test-node
