@@ -23,8 +23,9 @@ jobs:
             nvm install 18
             nvm use 18
       - checkout
-      - node/install-packages:
-          pkg-manager: npm
+      - run:
+          name: Install packages
+          command: npm install
       - run:
           name: Electron make
           command: npm run make
