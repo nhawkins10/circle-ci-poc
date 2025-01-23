@@ -37,4 +37,12 @@ workflows:
   build-packages:
     jobs:
       - build-windows-installer
+          filters:
+            branches:
+              only: 
+                - main
       - build-mac-installer
+          filters:
+            branches:
+              only: 
+                - main
