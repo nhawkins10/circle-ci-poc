@@ -1,20 +1,8 @@
-# This config was automatically generated from your source code
-# Stacks detected: deps:node:.
 version: 2.1
 orbs:
   node: circleci/node@5
   win: circleci/windows@5.0
 jobs:
-  test-node:
-    # Install node dependencies and run tests
-    executor: node/default
-    steps:
-      - checkout
-      - node/install-packages:
-          pkg-manager: npm
-      - run:
-          name: Run tests
-          command: echo \"No test specified in package.json\"
   build-windows-installer:
     executor: win/default
     steps:
@@ -31,6 +19,7 @@ jobs:
           command: npm run make
       - store_artifacts:
           path: out/make
+          destination: windows
   build-mac-installer:
     macos:
       xcode: 16.2.0
@@ -43,14 +32,9 @@ jobs:
           command: npm run make
       - store_artifacts:
           path: out/make
+          destination: macos
 workflows:
   build-packages:
     jobs:
       - build-windows-installer
       - build-mac-installer
-  # build-and-test:
-  #   jobs:
-  #     - test-node
-    # - deploy:
-    #     requires:
-    #       - test-node
