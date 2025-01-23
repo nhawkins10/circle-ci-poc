@@ -56,10 +56,7 @@ workflows:
                 - main
           notes-file: changelog.md
           requires:
-            - build-windows-installer
             - build-mac-installer
           tag: 1.0.0
           title: The initial release
-          files: 
-            - windows/**/*.exe
-            - macos/*.dmg
+          files: macos/*.dmg
