@@ -2,7 +2,6 @@ version: 2.1
 orbs:
   node: circleci/node@5
   win: circleci/windows@5.0
-  gh: circleci/github-cli@2.6
 jobs:
   build-windows-installer:
     executor: win/default
@@ -47,16 +46,3 @@ workflows:
             branches:
               only: 
                 - main
-      - gh/release:
-          context:
-            - GITHUB_CREDS
-          filters:
-            branches:
-              only:
-                - main
-          notes-file: changelog.md
-          requires:
-            - build-mac-installer
-          tag: 1.0.0
-          title: The initial release
-          files: macos/*.dmg

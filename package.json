@@ -1,6 +1,6 @@
 {
   "name": "circle-ci-poc",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "electron.js and CircleCI proof of concept",
   "main": "main.js",
   "scripts": {
