@@ -19,7 +19,9 @@ jobs:
     executor: win/default
     steps:
       - run:
-          command: nvm install 18 && nvm use 18
+          command: |
+            nvm install 18
+            nvm use 18
       - checkout
       - node/install-packages:
           pkg-manager: npm
@@ -27,7 +29,7 @@ jobs:
           name: Electron make
           command: npm run make
       - store_artifacts:
-          path: windows/output
+          path: out/make
   build-mac-installer:
     macos:
       xcode: 16.2.0
@@ -39,7 +41,7 @@ jobs:
           name: Electron make
           command: npm run make
       - store_artifacts:
-          path: macos/output
+          path: out/make
 workflows:
   build-packages:
     jobs:
